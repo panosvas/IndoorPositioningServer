@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 
 
 @Path("/measurementService")
-public class WiFiMeasurementService {
+public class RFMeasurementService {
 	
 	@GET
     @Produces("application/json")
