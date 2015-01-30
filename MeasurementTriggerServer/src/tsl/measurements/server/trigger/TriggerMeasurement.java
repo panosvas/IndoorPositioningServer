@@ -16,7 +16,7 @@ public class TriggerMeasurement {
 			System.out.println("Usage:");
 			System.out.println("TriggerMeasurement <IP> <PORT> <AREA> <#OF_WIFI_MEASUREMENTS> <#OF_BT_MEASUREMENTS> <#OF_MAGNETIC_MEASUREMENTS>");
 			
-			throw new IOException("Six inputs are needed");
+			throw new IOException("Six inputs are needed.");
 		}
 		
 		String ip = args[0];
