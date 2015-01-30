@@ -1,0 +1,10 @@
+----------------------------------------------------------------
+Wed Jun 04 15:11:59 EEST 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0146-66cb-058c-00000e6d4288 
+on database directory C:\Users\p.vasileiou\workspace\IndoorPositioningServer\codejava\webdb1  with class loader sun.misc.Launcher$AppClassLoader@5e7c7894 
+Loaded from file:/C:/Users/p.vasileiou/workspace/IndoorPositioningServer/WebContent/WEB-INF/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_25-b17
+user.dir=C:\Users\p.vasileiou\workspace\IndoorPositioningServer
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
