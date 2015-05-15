@@ -11,10 +11,10 @@ public class TriggerMeasurement {
 	
 	public static void main(String[] args) throws IOException{
 		
-		if (args.length != 6){
+		if (args.length != 7){
 			
 			System.out.println("Usage:");
-			System.out.println("TriggerMeasurement <IP> <PORT> <AREA> <#OF_WIFI_MEASUREMENTS> <#OF_BT_MEASUREMENTS> <#OF_MAGNETIC_MEASUREMENTS>");
+			System.out.println("TriggerMeasurement <IP> <PORT> <AREA> <#OF_WIFI_MEASUREMENTS> <#OF_BT_MEASUREMENTS> <#OF_MAGNETIC_MEASUREMENTS> <#OF_BLE_MEASUREMENTS>");
 			
 			throw new IOException("Six inputs are needed.");
 		}
@@ -25,8 +25,9 @@ public class TriggerMeasurement {
 		String wifiMeasurements = args[3];
 		String btMeasurements = args[4];
 		String magneticMeasurements = args[5];
+		String bleMeasurements = args[4];
 		
-		String messageStr = "measure=" + area + "," + wifiMeasurements + "," + btMeasurements + "," + magneticMeasurements;
+		String messageStr = "measure=" + area + "," + wifiMeasurements + "," + btMeasurements + "," + magneticMeasurements + "," + bleMeasurements;
         int server_port = port;
         DatagramSocket s;
         try {
