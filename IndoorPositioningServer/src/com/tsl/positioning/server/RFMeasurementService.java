@@ -13,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -27,14 +30,22 @@ import com.google.gson.Gson;
 @Path("/measurementService")
 public class RFMeasurementService {
 	
-	@GET
-    @Produces("application/json")
-    public Response measurementStorage(@Context HttpServletRequest request,
-    		@DefaultValue("-") @QueryParam("WiFiMeasurements") String wifiInfos,
-    		@DefaultValue("-") @QueryParam("BTMeasurements") String btInfos,
-    		@DefaultValue("-") @QueryParam("MagneticCalibratedMeasurements") String magneticCalibratedInfos,
-    		@DefaultValue("-") @QueryParam("MagneticUncalibratedMeasurements") String magneticUncalibratedInfos) {
+	
+	@POST
+	//@Consumes({"application/xml", "application/json", "application/x-www-form-urlencoded"})
+    //@Produces("application/json")
+    public void measurementService(
+    		@DefaultValue("-") @FormParam("WiFiMeasurements") String wifiInfos,
+    		@DefaultValue("-") @FormParam("BTMeasurements") String btInfos,
+    		@DefaultValue("-") @FormParam("MagneticCalibratedMeasurements") String magneticCalibratedInfos,
+    		@DefaultValue("-") @FormParam("MagneticUncalibratedMeasurements") String magneticUncalibratedInfos,
+    		@DefaultValue("-") @FormParam("BleMeasurements") String bleInfos){
 		
+		System.out.println(wifiInfos);
+		System.out.println(btInfos);
+		System.out.println(magneticCalibratedInfos);
+		System.out.println(magneticUncalibratedInfos);
+		System.out.println(bleInfos);
 		if (wifiInfos.equals("-") || wifiInfos.equals("[]")){
 			wifiInfos = null;
 		}
@@ -51,12 +62,17 @@ public class RFMeasurementService {
 			magneticUncalibratedInfos = null;
 		}
 		
+		if (bleInfos.equals("-") || bleInfos.equals("[]")){
+			bleInfos = null;
+		}
+		
 		Gson gson = new Gson();
 		
 		WifiStats[] wifiMeasurements = null;
 		BTStats[] btMeasurements = null;
 		MagneticCalibrated[] magneticCalibratedMeasurements = null;
 		MagneticUncalibrated[] magneticUncalibratedMeasurements = null;
+		BeaconStats[] bleMeasurements = null;
 		
 		try {
 			wifiMeasurements = gson.fromJson(wifiInfos, WifiStats[].class);
@@ -80,6 +96,12 @@ public class RFMeasurementService {
 			magneticUncalibratedMeasurements = gson.fromJson(magneticUncalibratedInfos, MagneticUncalibrated[].class);
 		} catch (Exception e){
 			System.out.println("Error while transforming the Magnetic Uncalibrated Measurements.");
+		}
+		
+		try {
+			bleMeasurements = gson.fromJson(bleInfos, BeaconStats[].class);
+		} catch (Exception e){
+			System.out.println("Error while transforming the BLE Measurements.");
 		}
 		
 	  	try {
@@ -119,6 +141,12 @@ public class RFMeasurementService {
                 if (magneticUncalibratedMeasurements != null){
 	                for (MagneticUncalibrated magneticUncalibrated : magneticUncalibratedMeasurements){
 	                	stmt.execute("insert into magnetic_uncalibrated_measurement(area , x_uncalibrated, y_uncalibrated, z_uncalibrated, x_bias, y_bias, z_bias, time) values ('" + magneticUncalibrated.getArea() + "', '" + magneticUncalibrated.getxValueUncalib()+ "', '" + magneticUncalibrated.getyValueUncalib() + "', '" + magneticUncalibrated.getzValueUncalib() + "', '" + magneticUncalibrated.getxBias() + "', '" + magneticUncalibrated.getyBias() + "', '" + magneticUncalibrated.getzBias() + "', '" + magneticUncalibrated.getTime() + "')");
+	                }
+                }
+                
+                if (bleMeasurements != null){
+	                for (BeaconStats beacon : bleMeasurements){
+	                	stmt.execute("insert into ble_measurement(mac , major, minor, proximityUUID, txPower, rssi, estimatedDistance, area, time) values ('" + beacon.getMac() + "', '" + beacon.getMajor()+ "', '" + beacon.getMinor() + "', '" + beacon.getProximityUUID() + "', '" + beacon.getTxPower() + "', '" + beacon.getRssi() + "', '" + beacon.getEstimatedDistance() + "', '" + beacon.getArea() + "', '" + beacon.getTime() + "')");
 	                }
                 }
                 
@@ -184,7 +212,7 @@ public class RFMeasurementService {
 		
 		System.out.println("############### LAST MEASUREMENTS RETRIEVIED AT: " + currentTime + "###############");
 		
-	  	return Response.status(200).entity("{}").build();
+	  	//return Response.status(200).entity("{}").build();
     }
 	
 
