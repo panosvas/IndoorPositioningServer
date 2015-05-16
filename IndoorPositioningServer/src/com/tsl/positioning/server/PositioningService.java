@@ -26,6 +26,10 @@ public class PositioningService {
 			@DefaultValue("-") @FormParam("MagneticMeasurements") String magneticMeasurements) {
 
 		Gson gson = new Gson();
+		System.out.println("POSITIONING!");
+		System.out.println(wifiMeasurements);
+		System.out.println(beaconMeasurements);
+		System.out.println(magneticMeasurements);
 
 		if (!wifiMeasurements.equals("-")) {
 
@@ -122,9 +126,7 @@ public class PositioningService {
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
 			// Create a messages
-			String text = "Hello world! From: "
-					+ Thread.currentThread().getName() + " : "
-					+ this.hashCode();
+			String text = "Hello world!";
 			TextMessage message = session.createTextMessage(text);
 
 			// Tell the producer to send the message
