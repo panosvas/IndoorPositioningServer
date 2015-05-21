@@ -64,12 +64,13 @@ public class PositioningService {
 
 		// MATLAB Proccessing here...
 		try {
-			Object[] arguments = new Object[2];
-			arguments[0] = new Double(5);
-			arguments[1] = new Double(1.5);
+			Object[] arguments = new Object[3];
+			arguments[0] = wifiMeasurements;//new Double(5);
+			arguments[1] = magneticMeasurements;//new Double(1.5);
+			arguments[2] = beaconMeasurements;
 
 			Object[] myfunOut = AppServletContextListener.proxy.returningFeval(
-					"myfun", 2, arguments);
+					"indoorPositioning", 2, arguments);
 			System.out.println(((double[]) myfunOut[0])[0]);
 			System.out.println(((double[]) myfunOut[1])[0]);
 
